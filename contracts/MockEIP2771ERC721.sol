@@ -1,13 +1,13 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@opengsn/contracts/src/BaseRelayRecipient.sol";
 
-contract MockEIP2771ERC20 is ERC20, BaseRelayRecipient {
-    constructor(address _trustedForwarder) ERC20("MockEIP2771ERC20", "TKN") {
+contract MockEIP2771ERC721 is ERC721, BaseRelayRecipient {
+    constructor(address _trustedForwarder) ERC721("MockEIP2771ERC721", "TKN") {
         trustedForwarder = _trustedForwarder;
-        _mint(msg.sender, 1000000 * 10**18); // 1,000,000 TKN
+        _mint(msg.sender, 0); // token 0
     }
 
     function _msgSender()

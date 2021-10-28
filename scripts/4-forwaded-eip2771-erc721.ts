@@ -50,7 +50,6 @@ async function main() {
 
     const userEOA = accounts[0];
 
-    // TODO check transfert function
     const { request, signature } = await signMetaTxRequest(userEOA.provider, minimalForwarder, {
         from: userEOA.address,
         to: erc721Token.address,

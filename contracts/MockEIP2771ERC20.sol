@@ -6,7 +6,7 @@ import "@opengsn/contracts/src/BaseRelayRecipient.sol";
 
 contract MockEIP2771ERC20 is ERC20, BaseRelayRecipient {
     constructor(address _trustedForwarder) ERC20("MockEIP2771ERC20", "TKN") {
-        trustedForwarder = _trustedForwarder;
+        _setTrustedForwarder(_trustedForwarder);
         _mint(msg.sender, 1000000 * 10**18); // 1,000,000 TKN
     }
 

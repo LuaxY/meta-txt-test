@@ -24,16 +24,18 @@ const config: HardhatUserConfig = {
       url: "http://127.0.0.1:8545"
     },
     rinkeby: {
-      chainId: 4,
       url: process.env.API_URL,
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-      // accounts: {
-      //   mnemonic: process.env.MNEMONIC,
-      //   initialIndex: 1
-      // },
+      // accounts: [`0x${process.env.PRIVATE_KEY}`],
+      accounts: {
+        mnemonic: process.env.MNEMONIC,
+        initialIndex: 1
+      },
       gas: 12500000,
     },
     hardhat: {
+      forking: {
+        url: process.env.API_URL!,
+      }
     },
   },
   solidity: {

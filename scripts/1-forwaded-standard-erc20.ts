@@ -11,7 +11,7 @@ dotenvConfig();
 async function main() {
     const accounts = await ethers.getSigners();
 
-    const MinimalForwarder = await ethers.getContractFactory("MockMinimalForwarder");
+    const MinimalForwarder = await ethers.getContractFactory("MinimalForwarder");
     const minimalForwarder = await MinimalForwarder.deploy();
     await minimalForwarder.deployed();
     console.log("MinimalForwarder deployed at:", minimalForwarder.address);
@@ -21,11 +21,11 @@ async function main() {
     await erc20Token.deployed();
     console.log("ERC20Token deployed at:", erc20Token.address);
 
-    console.log("npx hardhat verify --contract contracts/MockMinimalForwarder.sol:MockMinimalForwarder", minimalForwarder.address)
+    console.log("npx hardhat verify --contract @openzeppelin/contracts/metatx/MinimalForwarder.sol:MinimalForwarder", minimalForwarder.address)
     try {
         await run("verify:verify", {
             address: minimalForwarder.address,
-            contract: "contracts/MockMinimalForwarder.sol:MockMinimalForwarder"
+            contract: "@openzeppelin/contracts/metatx/MinimalForwarder.sol:MinimalForwarder"
         });
     } catch (error) {
         console.error(error);

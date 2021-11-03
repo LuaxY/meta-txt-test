@@ -10,6 +10,7 @@
     "hardhat": "^2.6.6",
     "hardhat-tracer": "^1.0.0-alpha.6",
     "hardhat-watcher": "^2.1.1",
+    "prompt-sync": "^4.2.0",
     "ts-node": "^10.3.0",
     "typescript": "^4.4.4"
   },

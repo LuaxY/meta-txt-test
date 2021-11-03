@@ -13,13 +13,11 @@ async function main() {
 
     const masterEOA = accounts[0];
 
-    const user1 = accounts[1];
-    const user1Balance = await user1.getBalance();
-    console.log(`user1 EOA ${user1.address}, balance: ${user1Balance}`);
+    const alice = accounts[1];
+    console.log("Alice EOA:", alice.address, "balance:", await alice.getBalance());
 
-    const user2 = accounts[2];
-    const user2Balance = await user2.getBalance();
-    console.log(`user2 EOA ${user2.address}, balance: ${user2Balance}`);
+    const david = accounts[2];
+    console.log("David EOA:", david.address, "balance:", await david.getBalance());
 
     prompt('Press enter to continue...');
 
@@ -29,8 +27,8 @@ async function main() {
     const relayerSigner = new DefenderRelaySigner(credentials, relayerProvider);
 
     const COUNTER_ADDRESS = "0x107935cBAA8bBC1Bc2c5C78747Bc653504Effd0A";
-    const USER1_SC_WALLET_ADDRESS = "0x4443Ff21B6Fc0f28c8DE9E7BeFff2c727D48c4d2";
-    const USER2_SC_WALLET_ADDRESS = "0xDA2397Ec2517865ca31F9017ef0D9Ae43E0AE9c6";
+    const ALICE_SC_WALLET_ADDRESS = "0xf7E894Dd1321639262E91D2E4ae96926D539b6dB";
+    const DAVID_SC_WALLET_ADDRESS = "0x5A8D625062419942A4bf18cb60C45699b5F3FDF6";
 
     const GnosisSafe = await ethers.getContractFactory("GnosisSafe");
 
@@ -38,11 +36,11 @@ async function main() {
     const counter = Counter.attach(COUNTER_ADDRESS);
     console.log("Counter deployed at:", counter.address);
 
-    const user1Wallet = GnosisSafe.attach(USER1_SC_WALLET_ADDRESS);
-    console.log("user1 wallet deployed at:", user1Wallet.address);
+    const user1Wallet = GnosisSafe.attach(ALICE_SC_WALLET_ADDRESS);
+    console.log("Alice wallet deployed at:", user1Wallet.address);
 
-    const user2Wallet = GnosisSafe.attach(USER2_SC_WALLET_ADDRESS);
-    console.log("user2 wallet deployed at:", user2Wallet.address);
+    const user2Wallet = GnosisSafe.attach(DAVID_SC_WALLET_ADDRESS);
+    console.log("David wallet deployed at:", user2Wallet.address);
 
     prompt('Press enter to continue...');
 
@@ -50,12 +48,12 @@ async function main() {
 
     prompt('Press enter to continue...');
 
-    // user1 wallet increment the counter
+    // Alice wallet increment the counter
     {
         const data = counter.interface.encodeFunctionData("increment");
         const nonce = await user1Wallet.nonce();
         const tx = buildSafeTransaction({ to: counter.address, data, safeTxGas: 1000000, nonce });
-        const sigs: SafeSignature[] = [await safeSignTypedData(user1, user1Wallet, tx)];
+        const sigs: SafeSignature[] = [await safeSignTypedData(alice, user1Wallet, tx)];
         const result = await executeTx(user1Wallet.connect(relayerSigner), tx, sigs);
         console.log("TX USER1 INCREMENT", result.hash);
         await result.wait();
@@ -65,12 +63,12 @@ async function main() {
 
     prompt('Press enter to continue...');
 
-    // user2 wallet increment the counter
+    // David wallet increment the counter
     {
         const data = counter.interface.encodeFunctionData("increment");
         const nonce = await user2Wallet.nonce();
         const tx = buildSafeTransaction({ to: counter.address, data, safeTxGas: 1000000, nonce });
-        const sigs: SafeSignature[] = [await safeSignTypedData(user2, user2Wallet, tx)];
+        const sigs: SafeSignature[] = [await safeSignTypedData(david, user2Wallet, tx)];
         const result = await executeTx(user2Wallet.connect(relayerSigner), tx, sigs);
         console.log("TX USER2 INCREMENT", result.hash);
         await result.wait();

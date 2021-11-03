@@ -10,13 +10,11 @@ dotenvConfig();
 async function main() {
     const accounts = await ethers.getSigners();
 
-    const user1 = accounts[1];
-    const user1Balance = await user1.getBalance();
-    console.log(`user1 EOA ${user1.address}, balance: ${user1Balance}`);
+    const alice = accounts[1];
+    console.log("Alice EOA:", alice.address, "balance:", await alice.getBalance());
 
-    const user2 = accounts[2];
-    const user2Balance = await user2.getBalance();
-    console.log(`user2 EOA ${user2.address}, balance: ${user2Balance}`);
+    const david = accounts[2];
+    console.log("David EOA:", david.address, "balance:", await david.getBalance());
 
     prompt('Press enter to continue...');
 
@@ -38,8 +36,8 @@ async function main() {
 
     prompt('Press enter to continue...');
 
-    await createNewUserWallet(user1, gnosisSafe, gnosisSafeProxyFactory, compatibilityFallbackHandler);
-    await createNewUserWallet(user2, gnosisSafe, gnosisSafeProxyFactory, compatibilityFallbackHandler);
+    await createNewUserWallet(alice, gnosisSafe, gnosisSafeProxyFactory, compatibilityFallbackHandler);
+    await createNewUserWallet(david, gnosisSafe, gnosisSafeProxyFactory, compatibilityFallbackHandler);
 }
 
 main()
@@ -63,7 +61,7 @@ async function createNewUserWallet(user: any, gnosisSafe: any, gnosisSafeProxyFa
 
     const initializer = gnosisSafe.interface.encodeFunctionData("setup", params);
     const gnosisSafeProxyAddress = await gnosisSafeProxyFactory.createProxyWithNonce(gnosisSafe.address, initializer, Date.now());
-    // console.log("CreateProxyWithNonce TX:", gnosisSafeProxyAddress.hash);
+    console.log("TX GnosisSafeProxyFactory.createProxyWithNonce():", gnosisSafeProxyAddress.hash);
 
     const receipt = await gnosisSafeProxyAddress.wait();
     const proxyCreactionEvents = receipt.events?.filter((x: any) => { return x.event == "ProxyCreation" })
@@ -73,8 +71,8 @@ async function createNewUserWallet(user: any, gnosisSafe: any, gnosisSafeProxyFa
 }
 
 /*
-user1 EOA 0x7c15d0fbC081C05Ff0E5442c87aC46396aA70488, balance: 0
-user2 EOA 0x5965b116464E09a13AcAaeC3a37cB2dB066e7929, balance: 0
+Bob EOA 0x7c15d0fbC081C05Ff0E5442c87aC46396aA70488, balance: 0
+Zoe EOA 0x5965b116464E09a13AcAaeC3a37cB2dB066e7929, balance: 0
 
 GnosisSafe deployed at: 0xa76331135509E4C982f3534A4C80b18Fb79BB27d
 GnosisSafeProxyFactory deployed at: 0x3355Ff1809784a6361437E53d1dDaac88e1a6008

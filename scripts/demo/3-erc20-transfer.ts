@@ -2,6 +2,7 @@ import { ethers } from "hardhat";
 import { DefenderRelaySigner, DefenderRelayProvider } from 'defender-relay-client/lib/ethers';
 import { config as dotenvConfig } from "dotenv";
 import { buildSafeTransaction, safeSignTypedData, SafeSignature, executeTx } from "@gnosis.pm/safe-contracts";
+import { erc20Balance, txHash, relayBalance, colored, pause } from "../utils/demo";
 
 const prompt = require('prompt-sync')();
 dotenvConfig();
@@ -11,17 +12,8 @@ dotenvConfig();
 async function main() {
     const accounts = await ethers.getSigners();
 
-    const masterEOA = accounts[0];
-
-    const user1 = accounts[1];
-    const user1Balance = await user1.getBalance();
-    console.log(`user1 EOA ${user1.address}, balance: ${user1Balance}`);
-
-    const user2 = accounts[2];
-    const user2Balance = await user2.getBalance();
-    console.log(`user2 EOA ${user2.address}, balance: ${user2Balance}`);
-
-    prompt('Press enter to continue...');
+    const alice = accounts[1];
+    const david = accounts[2];
 
     // To be replace by GTS js client
     const credentials = { apiKey: process.env.RELAY_API_KEY!, apiSecret: process.env.RELAY_API_SECRET! }
@@ -29,69 +21,78 @@ async function main() {
     const relayerSigner = new DefenderRelaySigner(credentials, relayerProvider);
 
     const ERC20_ADDRESS = "0xB1e9229061cc31e6d67ec812872e97A7c51801AE";
-    const USER1_SC_WALLET_ADDRESS = "0x4443Ff21B6Fc0f28c8DE9E7BeFff2c727D48c4d2";
-    const USER2_SC_WALLET_ADDRESS = "0xDA2397Ec2517865ca31F9017ef0D9Ae43E0AE9c6";
+    const ALICE_SC_WALLET_ADDRESS = "0xf7E894Dd1321639262E91D2E4ae96926D539b6dB";
+    const DAVID_SC_WALLET_ADDRESS = "0x5A8D625062419942A4bf18cb60C45699b5F3FDF6";
 
     const GnosisSafe = await ethers.getContractFactory("GnosisSafe");
 
     const ERC20Token = await ethers.getContractFactory("ERC20");
     const erc20Token = ERC20Token.attach(ERC20_ADDRESS);
-    console.log("ERC20Token deployed at:", erc20Token.address);
+    console.log(`\n🪙  ERC20Token deployed at: ${colored(erc20Token.address)}\n`);
 
-    const user1Wallet = GnosisSafe.attach(USER1_SC_WALLET_ADDRESS);
-    console.log("user1 wallet deployed at:", user1Wallet.address);
+    const aliceWallet = GnosisSafe.attach(ALICE_SC_WALLET_ADDRESS);
+    const davidWallet = GnosisSafe.attach(DAVID_SC_WALLET_ADDRESS);
 
-    const user2Wallet = GnosisSafe.attach(USER2_SC_WALLET_ADDRESS);
-    console.log("user2 wallet deployed at:", user2Wallet.address);
-
-    console.log("user1 wallet erc20 balance:", ethers.utils.formatEther(await erc20Token.balanceOf(user1Wallet.address)), "TKN");
-    console.log("user2 wallet erc20 balance:", ethers.utils.formatEther(await erc20Token.balanceOf(user2Wallet.address)), "TKN");
-
-    prompt('Press enter to continue...');
+    await erc20Balance("Alice", alice, erc20Token, aliceWallet);
+    await erc20Balance("David", david, erc20Token, davidWallet);
 
     const tokenAmount = ethers.utils.parseEther("100");
+    const relayerAddress = await relayerSigner.getAddress();
 
-    // Transfer some erc20 tokens from master EOA to user1 wallet
+    pause();
+
+    // Transfer erc20 tokens from Relayer EOA to Alice wallet
     {
-        const result = await erc20Token.transfer(user1Wallet.address, tokenAmount);
-        console.log("TX MASTER -> USER1", result.hash);
-        await result.wait();
+        const result = await erc20Token.connect(relayerSigner).transfer(aliceWallet.address, tokenAmount);
+        console.log(`👀 [ Send ${ethers.utils.formatEther(tokenAmount)} TKN from Relayer EOA ${colored(relayerAddress)} to Alice Wallet ${colored(aliceWallet.address)} ]\n`);
+        txHash(result.hash);
+        const receipt = await result.wait();
+        console.log("✅ Mined...\n");
+        relayBalance(receipt);
     }
 
-    console.log("user1 wallet erc20 balance:", ethers.utils.formatEther(await erc20Token.balanceOf(user1Wallet.address)), "TKN");
-    console.log("user2 wallet erc20 balance:", ethers.utils.formatEther(await erc20Token.balanceOf(user2Wallet.address)), "TKN");
+    await erc20Balance("Alice", alice, erc20Token, aliceWallet);
+    await erc20Balance("David", david, erc20Token, davidWallet);
 
-    prompt('Press enter to continue...');
+    pause();
 
-    // Transfer some erc20 tokens from user1 wallet to user2 wallet
+    // Transfer erc20 tokens from Alice wallet to David wallet
     {
-        const data = erc20Token.interface.encodeFunctionData("transfer", [user2Wallet.address, tokenAmount]);
-        const nonce = await user1Wallet.nonce();
+        const data = erc20Token.interface.encodeFunctionData("transfer", [davidWallet.address, tokenAmount]);
+        const nonce = await aliceWallet.nonce();
         const tx = buildSafeTransaction({ to: erc20Token.address, data, safeTxGas: 1000000, nonce });
-        const sigs: SafeSignature[] = [await safeSignTypedData(user1, user1Wallet, tx)];
-        const result = await executeTx(user1Wallet.connect(relayerSigner), tx, sigs);
-        console.log("TX USER1 -> USER2", result.hash);
-        await result.wait();
+        const sigs: SafeSignature[] = [await safeSignTypedData(alice, aliceWallet, tx)];
+        const result = await executeTx(aliceWallet.connect(relayerSigner), tx, sigs);
+        console.log(`👀 [ Send ${ethers.utils.formatEther(tokenAmount)} TKN from Alice Wallet ${colored(aliceWallet.address)} to David Wallet ${colored(davidWallet.address)} ]\n`);
+        txHash(result.hash);
+        const receipt = await result.wait();
+        console.log("✅ Mined...\n");
+        relayBalance(receipt);
     }
 
-    console.log("user1 wallet erc20 balance:", ethers.utils.formatEther(await erc20Token.balanceOf(user1Wallet.address)), "TKN");
-    console.log("user2 wallet erc20 balance:", ethers.utils.formatEther(await erc20Token.balanceOf(user2Wallet.address)), "TKN");
+    await erc20Balance("Alice", alice, erc20Token, aliceWallet);
+    await erc20Balance("David", david, erc20Token, davidWallet);
 
-    prompt('Press enter to continue...');
+    pause();
 
-    // Transfer some erc20 tokens from user2 wallet to master EOA
+    // Transfer erc20 tokens from David wallet to Relayer EOA
     {
-        const data = erc20Token.interface.encodeFunctionData("transfer", [masterEOA.address, tokenAmount]);
-        const nonce = await user2Wallet.nonce();
+        const data = erc20Token.interface.encodeFunctionData("transfer", [relayerAddress, tokenAmount]);
+        const nonce = await davidWallet.nonce();
         const tx = buildSafeTransaction({ to: erc20Token.address, data, safeTxGas: 1000000, nonce });
-        const sigs: SafeSignature[] = [await safeSignTypedData(user2, user2Wallet, tx)];
-        const result = await executeTx(user2Wallet.connect(relayerSigner), tx, sigs);
-        console.log("TX USER2 -> MASTER", result.hash);
-        await result.wait();
+        const sigs: SafeSignature[] = [await safeSignTypedData(david, davidWallet, tx)];
+        const result = await executeTx(davidWallet.connect(relayerSigner), tx, sigs);
+        console.log(`👀 [ Send ${ethers.utils.formatEther(tokenAmount)} TKN from David Wallet ${colored(davidWallet.address)} to Relayer EOA ${colored(davidWallet.address)} ]\n`);
+        txHash(result.hash);
+        const receipt = await result.wait();
+        console.log("✅ Mined...\n");
+        relayBalance(receipt);
     }
 
-    console.log("user1 wallet erc20 balance:", ethers.utils.formatEther(await erc20Token.balanceOf(user1Wallet.address)), "TKN");
-    console.log("user2 wallet erc20 balance:", ethers.utils.formatEther(await erc20Token.balanceOf(user2Wallet.address)), "TKN");
+    await erc20Balance("Alice", alice, erc20Token, aliceWallet);
+    await erc20Balance("David", david, erc20Token, davidWallet);
+
+    console.log();
 }
 
 main()

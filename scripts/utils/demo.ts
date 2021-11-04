@@ -4,11 +4,11 @@ const color = require("color-seed");
 const prompt = require('prompt-sync')();
 
 export async function ethBalance(name: any, user: any, wallet: any) {
-    console.log(`💰 [ ${name} ${colored(user.address)} ${ethers.utils.formatEther(await user.getBalance())} ETH ] [ Wallet ${colored(wallet.address)} ${ethers.utils.formatEther(await ethers.provider.getBalance(wallet.address))} ETH ]`);
+    console.log(`💰 [ ${name} EOA ${colored(user.address)} ${ethers.utils.formatEther(await user.getBalance())} ETH ] [ SC Wallet ${colored(wallet.address)} ${ethers.utils.formatEther(await ethers.provider.getBalance(wallet.address))} ETH ]`);
 }
 
 export async function erc20Balance(name: any, user: any, token: any, wallet: any) {
-    console.log(`💰 [ ${name} ${colored(user.address)} ${ethers.utils.formatEther(await user.getBalance())} ETH ] [ Wallet ${colored(wallet.address)} ${ethers.utils.formatEther(await token.balanceOf(wallet.address))} ${await token.symbol()} ]`);
+    console.log(`💰 [ ${name} EOA ${colored(user.address)} ${ethers.utils.formatEther(await user.getBalance())} ETH ] [ SC Wallet ${colored(wallet.address)} ${ethers.utils.formatEther(await token.balanceOf(wallet.address))} ${await token.symbol()} ]`);
 }
 
 export function txHash(hash: any) {

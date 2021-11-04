@@ -2,6 +2,7 @@ import { ethers } from "hardhat";
 import { DefenderRelaySigner, DefenderRelayProvider } from 'defender-relay-client/lib/ethers';
 import { config as dotenvConfig } from "dotenv";
 import { buildSafeTransaction, safeSignTypedData, SafeSignature, executeTx } from "@gnosis.pm/safe-contracts";
+import chalk from "chalk";
 import { ethBalance, txHash, relayBalance, colored, pause } from "../utils/demo";
 
 const prompt = require('prompt-sync')();
@@ -41,7 +42,7 @@ async function main() {
     // Transfer ethers from Relayer EOA to Alice wallet
     {
         const result = await relayerSigner.sendTransaction({ to: aliceWallet.address, value: ethersAmount });
-        console.log(`👀 [ Send ${ethers.utils.formatEther(ethersAmount)} ETH from Relayer EOA ${colored(relayerAddress)} to Alice Wallet ${colored(aliceWallet.address)} ]\n`);
+        console.log(`👀 [ Send ${chalk.bold(ethers.utils.formatEther(ethersAmount) + " ETH")} from Relayer EOA ${colored(relayerAddress)} to Alice Wallet ${colored(aliceWallet.address)} ]\n`);
         txHash(result.hash);
         const receipt = await result.wait();
         console.log("✅ Mined...\n");
@@ -59,7 +60,7 @@ async function main() {
         const tx = buildSafeTransaction({ to: davidWallet.address, value: ethersAmount, safeTxGas: 1000000, nonce });
         const sigs: SafeSignature[] = [await safeSignTypedData(alice, aliceWallet, tx)];
         const result = await executeTx(aliceWallet.connect(relayerSigner), tx, sigs);
-        console.log(`👀 [ Send ${ethers.utils.formatEther(ethersAmount)} ETH from Alice Wallet ${colored(aliceWallet.address)} to David Wallet ${colored(davidWallet.address)} ]\n`);
+        console.log(`👀 [ Send ${chalk.bold(ethers.utils.formatEther(ethersAmount) + " ETH")} from Alice Wallet ${colored(aliceWallet.address)} to David Wallet ${colored(davidWallet.address)} ]\n`);
         txHash(result.hash);
         const receipt = await result.wait();
         console.log("✅ Mined...\n");
@@ -77,7 +78,7 @@ async function main() {
         const tx = buildSafeTransaction({ to: relayerAddress, value: ethersAmount, safeTxGas: 1000000, nonce });
         const sigs: SafeSignature[] = [await safeSignTypedData(david, davidWallet, tx)];
         const result = await executeTx(davidWallet.connect(relayerSigner), tx, sigs);
-        console.log(`👀 [ Send ${ethers.utils.formatEther(ethersAmount)} ETH from David Wallet ${colored(davidWallet.address)} to Relayer EOA ${colored(relayerAddress)} ]\n`);
+        console.log(`👀 [ Send ${chalk.bold(ethers.utils.formatEther(ethersAmount) + " ETH")} from David Wallet ${colored(davidWallet.address)} to Relayer EOA ${colored(relayerAddress)} ]\n`);
         txHash(result.hash);
         const receipt = await result.wait();
         console.log("✅ Mined...\n");

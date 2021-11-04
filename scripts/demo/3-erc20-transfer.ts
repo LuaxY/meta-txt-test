@@ -2,6 +2,7 @@ import { ethers } from "hardhat";
 import { DefenderRelaySigner, DefenderRelayProvider } from 'defender-relay-client/lib/ethers';
 import { config as dotenvConfig } from "dotenv";
 import { buildSafeTransaction, safeSignTypedData, SafeSignature, executeTx } from "@gnosis.pm/safe-contracts";
+import chalk from "chalk";
 import { erc20Balance, txHash, relayBalance, colored, pause } from "../utils/demo";
 
 const prompt = require('prompt-sync')();
@@ -44,7 +45,7 @@ async function main() {
     // Transfer erc20 tokens from Relayer EOA to Alice wallet
     {
         const result = await erc20Token.connect(relayerSigner).transfer(aliceWallet.address, tokenAmount);
-        console.log(`👀 [ Send ${ethers.utils.formatEther(tokenAmount)} TKN from Relayer EOA ${colored(relayerAddress)} to Alice Wallet ${colored(aliceWallet.address)} ]\n`);
+        console.log(`👀 [ Send ${chalk.bold(ethers.utils.formatEther(tokenAmount) + " TKN")} from Relayer EOA ${colored(relayerAddress)} to Alice Wallet ${colored(aliceWallet.address)} ]\n`);
         txHash(result.hash);
         const receipt = await result.wait();
         console.log("✅ Mined...\n");
@@ -63,7 +64,7 @@ async function main() {
         const tx = buildSafeTransaction({ to: erc20Token.address, data, safeTxGas: 1000000, nonce });
         const sigs: SafeSignature[] = [await safeSignTypedData(alice, aliceWallet, tx)];
         const result = await executeTx(aliceWallet.connect(relayerSigner), tx, sigs);
-        console.log(`👀 [ Send ${ethers.utils.formatEther(tokenAmount)} TKN from Alice Wallet ${colored(aliceWallet.address)} to David Wallet ${colored(davidWallet.address)} ]\n`);
+        console.log(`👀 [ Send ${chalk.bold(ethers.utils.formatEther(tokenAmount) + " TKN")} from Alice Wallet ${colored(aliceWallet.address)} to David Wallet ${colored(davidWallet.address)} ]\n`);
         txHash(result.hash);
         const receipt = await result.wait();
         console.log("✅ Mined...\n");
@@ -82,7 +83,7 @@ async function main() {
         const tx = buildSafeTransaction({ to: erc20Token.address, data, safeTxGas: 1000000, nonce });
         const sigs: SafeSignature[] = [await safeSignTypedData(david, davidWallet, tx)];
         const result = await executeTx(davidWallet.connect(relayerSigner), tx, sigs);
-        console.log(`👀 [ Send ${ethers.utils.formatEther(tokenAmount)} TKN from David Wallet ${colored(davidWallet.address)} to Relayer EOA ${colored(davidWallet.address)} ]\n`);
+        console.log(`👀 [ Send ${chalk.bold(ethers.utils.formatEther(tokenAmount) + " TKN")} from David Wallet ${colored(davidWallet.address)} to Relayer EOA ${colored(relayerAddress)} ]\n`);
         txHash(result.hash);
         const receipt = await result.wait();
         console.log("✅ Mined...\n");

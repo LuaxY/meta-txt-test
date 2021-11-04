@@ -48,7 +48,7 @@ async function main() {
         txHash(result.hash);
         const receipt = await result.wait();
         console.log("✅ Mined...\n");
-        relayBalance(receipt);
+        await relayBalance(receipt);
     }
 
     await erc20Balance("Alice", alice, erc20Token, aliceWallet);
@@ -67,7 +67,7 @@ async function main() {
         txHash(result.hash);
         const receipt = await result.wait();
         console.log("✅ Mined...\n");
-        relayBalance(receipt);
+        await relayBalance(receipt);
     }
 
     await erc20Balance("Alice", alice, erc20Token, aliceWallet);
@@ -86,7 +86,7 @@ async function main() {
         txHash(result.hash);
         const receipt = await result.wait();
         console.log("✅ Mined...\n");
-        relayBalance(receipt);
+        await relayBalance(receipt);
     }
 
     await erc20Balance("Alice", alice, erc20Token, aliceWallet);

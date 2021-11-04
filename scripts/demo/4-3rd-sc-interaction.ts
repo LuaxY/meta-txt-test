@@ -2,6 +2,8 @@ import { ethers } from "hardhat";
 import { DefenderRelaySigner, DefenderRelayProvider } from 'defender-relay-client/lib/ethers';
 import { config as dotenvConfig } from "dotenv";
 import { buildSafeTransaction, safeSignTypedData, SafeSignature, executeTx } from "@gnosis.pm/safe-contracts";
+import chalk from "chalk";
+import { ethBalance, txHash, relayBalance, colored, pause } from "../utils/demo";
 
 const prompt = require('prompt-sync')();
 dotenvConfig();
@@ -11,15 +13,8 @@ dotenvConfig();
 async function main() {
     const accounts = await ethers.getSigners();
 
-    const masterEOA = accounts[0];
-
     const alice = accounts[1];
-    console.log("Alice EOA:", alice.address, "balance:", await alice.getBalance());
-
     const david = accounts[2];
-    console.log("David EOA:", david.address, "balance:", await david.getBalance());
-
-    prompt('Press enter to continue...');
 
     // To be replace by GTS js client
     const credentials = { apiKey: process.env.RELAY_API_KEY!, apiSecret: process.env.RELAY_API_SECRET! }
@@ -34,47 +29,52 @@ async function main() {
 
     const Counter = await ethers.getContractFactory("Counter");
     const counter = Counter.attach(COUNTER_ADDRESS);
-    console.log("Counter deployed at:", counter.address);
+    console.log(`\n🔢 Counter deployed at: ${colored(counter.address)}\n`);
 
-    const user1Wallet = GnosisSafe.attach(ALICE_SC_WALLET_ADDRESS);
-    console.log("Alice wallet deployed at:", user1Wallet.address);
+    const aliceWallet = GnosisSafe.attach(ALICE_SC_WALLET_ADDRESS);
+    const davidWallet = GnosisSafe.attach(DAVID_SC_WALLET_ADDRESS);
 
-    const user2Wallet = GnosisSafe.attach(DAVID_SC_WALLET_ADDRESS);
-    console.log("David wallet deployed at:", user2Wallet.address);
+    await ethBalance("Alice", alice, aliceWallet);
+    await ethBalance("David", david, davidWallet);
 
-    prompt('Press enter to continue...');
+    console.log(`\n#️⃣  Counter value: ${chalk.bold((await counter.counter()).toString())}`);
 
-    console.log("Counter value:", (await counter.counter()).toString());
-
-    prompt('Press enter to continue...');
+    pause();
 
     // Alice wallet increment the counter
     {
         const data = counter.interface.encodeFunctionData("increment");
-        const nonce = await user1Wallet.nonce();
+        const nonce = await aliceWallet.nonce();
         const tx = buildSafeTransaction({ to: counter.address, data, safeTxGas: 1000000, nonce });
-        const sigs: SafeSignature[] = [await safeSignTypedData(alice, user1Wallet, tx)];
-        const result = await executeTx(user1Wallet.connect(relayerSigner), tx, sigs);
-        console.log("TX USER1 INCREMENT", result.hash);
-        await result.wait();
+        const sigs: SafeSignature[] = [await safeSignTypedData(alice, aliceWallet, tx)];
+        const result = await executeTx(aliceWallet.connect(relayerSigner), tx, sigs);
+        console.log(`👀 [ Call ${chalk.bold("Counter.increment()")} by Alice Wallet ${colored(aliceWallet.address)} ]\n`);
+        txHash(result.hash);
+        const receipt = await result.wait();
+        console.log("✅ Mined...\n");
+        await relayBalance(receipt);
     }
 
-    console.log("Counter value:", (await counter.counter()).toString());
+    console.log(`#️⃣  Counter value: ${chalk.bold((await counter.counter()).toString())}`);
 
-    prompt('Press enter to continue...');
+    pause();
 
     // David wallet increment the counter
     {
         const data = counter.interface.encodeFunctionData("increment");
-        const nonce = await user2Wallet.nonce();
+        const nonce = await davidWallet.nonce();
         const tx = buildSafeTransaction({ to: counter.address, data, safeTxGas: 1000000, nonce });
-        const sigs: SafeSignature[] = [await safeSignTypedData(david, user2Wallet, tx)];
-        const result = await executeTx(user2Wallet.connect(relayerSigner), tx, sigs);
-        console.log("TX USER2 INCREMENT", result.hash);
-        await result.wait();
+        const sigs: SafeSignature[] = [await safeSignTypedData(david, davidWallet, tx)];
+        const result = await executeTx(davidWallet.connect(relayerSigner), tx, sigs);
+        console.log(`👀 [ Call ${chalk.bold("Counter.increment()")} by David Wallet ${colored(davidWallet.address)} ]\n`);
+        txHash(result.hash);
+        const receipt = await result.wait();
+        console.log("✅ Mined...\n");
+        await relayBalance(receipt);
     }
 
-    console.log("Counter value:", (await counter.counter()).toString());
+    console.log(`#️⃣  Counter value: ${chalk.bold((await counter.counter()).toString())}`);
+    console.log();
 }
 
 main()

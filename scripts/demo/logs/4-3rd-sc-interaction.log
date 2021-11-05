@@ -1,0 +1,36 @@
+🔢 Counter deployed at: 0xe928ab3623b05F0C329E07E99ae34E301C2Ac360
+
+💰 [ Alice EOA 0x7c15d0fbC081C05Ff0E5442c87aC46396aA70488 0.0 ETH ] [ SC Wallet 0xD79e44a675F7e98539b860BEadfdd56dA580DCAF 0.0 ETH ]
+💰 [ David EOA 0x5965b116464E09a13AcAaeC3a37cB2dB066e7929 0.0 ETH ] [ SC Wallet 0x5D8f7aEe31782f37D02E133d08E3Ff1D22179b19 0.0 ETH ]
+
+#️⃣  Counter value: 4
+
+⌛ Press enter to continue...
+
+👀 [ Call Counter.increment() by Alice Wallet 0xD79e44a675F7e98539b860BEadfdd56dA580DCAF ]
+
+🔗 TX hash: 0xc27521ed763bbabac38fb021a1b6504a93a36e195761b2c17227784ccf60d7cf
+🔎 https://goerli.etherscan.io/tx/0xc27521ed763bbabac38fb021a1b6504a93a36e195761b2c17227784ccf60d7cf
+🔎 https://ethtx.info/goerli/0xc27521ed763bbabac38fb021a1b6504a93a36e195761b2c17227784ccf60d7cf/
+✅ Mined...
+
+💰 Balance of Relayer EOA 0x99E02CcD4146714b8bD7a1F818FC88e892658650
+📈 [ BEFORE ] 0.996626492251 ETH
+📉 [  AFTER ] 0.996486893851 ETH (-0.0001395984 ETH)
+
+#️⃣  Counter value: 5
+
+⌛ Press enter to continue...
+
+👀 [ Call Counter.increment() by David Wallet 0x5D8f7aEe31782f37D02E133d08E3Ff1D22179b19 ]
+
+🔗 TX hash: 0x1d58380259d775e7cc4569a10de171073371b57a6b396c5ed48c59e415a39889
+🔎 https://goerli.etherscan.io/tx/0x1d58380259d775e7cc4569a10de171073371b57a6b396c5ed48c59e415a39889
+🔎 https://ethtx.info/goerli/0x1d58380259d775e7cc4569a10de171073371b57a6b396c5ed48c59e415a39889/
+✅ Mined...
+
+💰 Balance of Relayer EOA 0x99E02CcD4146714b8bD7a1F818FC88e892658650
+📈 [ BEFORE ] 0.996486893851 ETH
+📉 [  AFTER ] 0.996347266651 ETH (-0.0001396272 ETH)
+
+#️⃣  Counter value: 6

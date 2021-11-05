@@ -46,58 +46,58 @@ main()
     });
 
 /*
-GnosisSafe deployed at: 0xa76331135509E4C982f3534A4C80b18Fb79BB27d
-GnosisSafeProxyFactory deployed at: 0x3355Ff1809784a6361437E53d1dDaac88e1a6008
-CompatibilityFallbackHandler deployed at: 0xD557d951349849ecEBfD3D5308e3df362E2aAF45
-ERC20Token deployed at: 0xB1e9229061cc31e6d67ec812872e97A7c51801AE
-Counter deployed at: 0x107935cBAA8bBC1Bc2c5C78747Bc653504Effd0A
+GnosisSafe deployed at: 0xeA9e96EC29aDAfB0962c23eDEe0caafc250f75C7
+GnosisSafeProxyFactory deployed at: 0x691EbA0B80Caee249931e30daAAEe29B7B792b22
+CompatibilityFallbackHandler deployed at: 0xdB8da6B0a8d681eC5d2A705C2cE6E93436c0EbDC
+ERC20Token deployed at: 0x6c7179bB7105344b91B56328Fcc72E9c18b845d5
+Counter deployed at: 0xe928ab3623b05F0C329E07E99ae34E301C2Ac360
 
-hh verify --contract @gnosis.pm/safe-contracts/contracts/GnosisSafe.sol:GnosisSafe 0xa76331135509E4C982f3534A4C80b18Fb79BB27d
-hh verify --contract @gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxyFactory.sol:GnosisSafeProxyFactory 0x3355Ff1809784a6361437E53d1dDaac88e1a6008
-hh verify --contract @gnosis.pm/safe-contracts/contracts/handler/CompatibilityFallbackHandler.sol:CompatibilityFallbackHandler 0xD557d951349849ecEBfD3D5308e3df362E2aAF45
-hh verify --contract contracts/MockStandardERC20.sol:MockStandardERC20 0xB1e9229061cc31e6d67ec812872e97A7c51801AE
-hh verify --contract contracts/Counter.sol:Counter 0x107935cBAA8bBC1Bc2c5C78747Bc653504Effd0A
+hh verify --contract @gnosis.pm/safe-contracts/contracts/GnosisSafe.sol:GnosisSafe 0xeA9e96EC29aDAfB0962c23eDEe0caafc250f75C7
+hh verify --contract @gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxyFactory.sol:GnosisSafeProxyFactory 0x691EbA0B80Caee249931e30daAAEe29B7B792b22
+hh verify --contract @gnosis.pm/safe-contracts/contracts/handler/CompatibilityFallbackHandler.sol:CompatibilityFallbackHandler 0xdB8da6B0a8d681eC5d2A705C2cE6E93436c0EbDC
+hh verify --contract contracts/MockStandardERC20.sol:MockStandardERC20 0x6c7179bB7105344b91B56328Fcc72E9c18b845d5
+hh verify --contract contracts/Counter.sol:Counter 0xe928ab3623b05F0C329E07E99ae34E301C2Ac360
 */
 
 /*
 Nothing to compile
 Compiling 1 file with 0.8.9
 Successfully submitted source code for contract
-@gnosis.pm/safe-contracts/contracts/GnosisSafe.sol:GnosisSafe at 0xa76331135509E4C982f3534A4C80b18Fb79BB27d
+@gnosis.pm/safe-contracts/contracts/GnosisSafe.sol:GnosisSafe at 0xeA9e96EC29aDAfB0962c23eDEe0caafc250f75C7
 for verification on Etherscan. Waiting for verification result...
 
 Successfully verified contract GnosisSafe on Etherscan.
-https://rinkeby.etherscan.io/address/0xa76331135509E4C982f3534A4C80b18Fb79BB27d#code
+https://goerli.etherscan.io/address/0xeA9e96EC29aDAfB0962c23eDEe0caafc250f75C7#code
 Nothing to compile
 Compiling 1 file with 0.8.9
 Successfully submitted source code for contract
-@gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxyFactory.sol:GnosisSafeProxyFactory at 0x3355Ff1809784a6361437E53d1dDaac88e1a6008
+@gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxyFactory.sol:GnosisSafeProxyFactory at 0x691EbA0B80Caee249931e30daAAEe29B7B792b22
 for verification on Etherscan. Waiting for verification result...
 
 Successfully verified contract GnosisSafeProxyFactory on Etherscan.
-https://rinkeby.etherscan.io/address/0x3355Ff1809784a6361437E53d1dDaac88e1a6008#code
+https://goerli.etherscan.io/address/0x691EbA0B80Caee249931e30daAAEe29B7B792b22#code
 Nothing to compile
 Compiling 1 file with 0.8.9
 Successfully submitted source code for contract
-@gnosis.pm/safe-contracts/contracts/handler/CompatibilityFallbackHandler.sol:CompatibilityFallbackHandler at 0xD557d951349849ecEBfD3D5308e3df362E2aAF45
+@gnosis.pm/safe-contracts/contracts/handler/CompatibilityFallbackHandler.sol:CompatibilityFallbackHandler at 0xdB8da6B0a8d681eC5d2A705C2cE6E93436c0EbDC
 for verification on Etherscan. Waiting for verification result...
 
 Successfully verified contract CompatibilityFallbackHandler on Etherscan.
-https://rinkeby.etherscan.io/address/0xD557d951349849ecEBfD3D5308e3df362E2aAF45#code
+https://goerli.etherscan.io/address/0xdB8da6B0a8d681eC5d2A705C2cE6E93436c0EbDC#code
 Nothing to compile
 Compiling 1 file with 0.8.9
 Successfully submitted source code for contract
-contracts/MockStandardERC20.sol:MockStandardERC20 at 0xB1e9229061cc31e6d67ec812872e97A7c51801AE
+contracts/MockStandardERC20.sol:MockStandardERC20 at 0x6c7179bB7105344b91B56328Fcc72E9c18b845d5
 for verification on Etherscan. Waiting for verification result...
 
 Successfully verified contract MockStandardERC20 on Etherscan.
-https://rinkeby.etherscan.io/address/0xB1e9229061cc31e6d67ec812872e97A7c51801AE#code
+https://goerli.etherscan.io/address/0x6c7179bB7105344b91B56328Fcc72E9c18b845d5#code
 Nothing to compile
 Compiling 1 file with 0.8.9
 Successfully submitted source code for contract
-contracts/Counter.sol:Counter at 0x107935cBAA8bBC1Bc2c5C78747Bc653504Effd0A
+contracts/Counter.sol:Counter at 0xe928ab3623b05F0C329E07E99ae34E301C2Ac360
 for verification on Etherscan. Waiting for verification result...
 
 Successfully verified contract Counter on Etherscan.
-https://rinkeby.etherscan.io/address/0x107935cBAA8bBC1Bc2c5C78747Bc653504Effd0A#code
+https://goerli.etherscan.io/address/0xe928ab3623b05F0C329E07E99ae34E301C2Ac360#code
 */

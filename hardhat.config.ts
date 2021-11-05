@@ -25,7 +25,6 @@ const config: HardhatUserConfig = {
     },
     rinkeby: {
       url: process.env.API_URL,
-      // accounts: [`0x${process.env.PRIVATE_KEY}`],
       accounts: {
         mnemonic: process.env.MNEMONIC,
         initialIndex: 1

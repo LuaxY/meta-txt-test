@@ -13,8 +13,10 @@ export async function erc20Balance(name: any, user: any, token: any, wallet: any
 
 export function txHash(hash: any) {
     console.log(`🔗 TX hash: ${hash}`);
-    console.log(`🔎 https://rinkeby.etherscan.io/tx/${hash}`);
-    console.log(`🔎 https://ethtx.info/rinkeby/${hash}/`);
+    // console.log(`🔎 https://rinkeby.etherscan.io/tx/${hash}`);
+    console.log(`🔎 https://goerli.etherscan.io/tx/${hash}`);
+    // console.log(`🔎 https://ethtx.info/rinkeby/${hash}/`);
+    console.log(`🔎 https://ethtx.info/goerli/${hash}/`);
 }
 
 export async function relayBalance(receipt: any) {
@@ -27,7 +29,7 @@ export async function relayBalance(receipt: any) {
 }
 
 export function colored(seed: any) {
-    const hex = color.getColor(ethers.utils.getAddress(seed) + 52);
+    const hex = color.getColor(ethers.utils.getAddress(seed) + 58);
     return chalk.bold.hex(hex)(ethers.utils.getAddress(seed));
 }
 

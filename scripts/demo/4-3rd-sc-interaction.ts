@@ -21,9 +21,9 @@ async function main() {
     const relayerProvider = new DefenderRelayProvider(credentials);
     const relayerSigner = new DefenderRelaySigner(credentials, relayerProvider);
 
-    const COUNTER_ADDRESS = "0x107935cBAA8bBC1Bc2c5C78747Bc653504Effd0A";
-    const ALICE_SC_WALLET_ADDRESS = "0xf7E894Dd1321639262E91D2E4ae96926D539b6dB";
-    const DAVID_SC_WALLET_ADDRESS = "0x5A8D625062419942A4bf18cb60C45699b5F3FDF6";
+    const COUNTER_ADDRESS = "0xe928ab3623b05F0C329E07E99ae34E301C2Ac360";
+    const ALICE_SC_WALLET_ADDRESS = "0xD79e44a675F7e98539b860BEadfdd56dA580DCAF";
+    const DAVID_SC_WALLET_ADDRESS = "0x5D8f7aEe31782f37D02E133d08E3Ff1D22179b19";
 
     const GnosisSafe = await ethers.getContractFactory("GnosisSafe");
 

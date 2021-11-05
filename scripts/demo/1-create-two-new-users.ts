@@ -18,9 +18,9 @@ async function main() {
 
     prompt('Press enter to continue...');
 
-    const GNOSIS_SAFE_SIGNELTON_ADDRESS = "0xa76331135509E4C982f3534A4C80b18Fb79BB27d";
-    const GNOSIS_SAFE_PROXY_FACTORY_ADDRESS = "0x3355Ff1809784a6361437E53d1dDaac88e1a6008";
-    const COMPATIBILITY_FALLBACK_HANDLER_ADDRESS = "0xD557d951349849ecEBfD3D5308e3df362E2aAF45";
+    const GNOSIS_SAFE_SIGNELTON_ADDRESS = "0xeA9e96EC29aDAfB0962c23eDEe0caafc250f75C7";
+    const GNOSIS_SAFE_PROXY_FACTORY_ADDRESS = "0x691EbA0B80Caee249931e30daAAEe29B7B792b22";
+    const COMPATIBILITY_FALLBACK_HANDLER_ADDRESS = "0xdB8da6B0a8d681eC5d2A705C2cE6E93436c0EbDC";
 
     const GnosisSafe = await ethers.getContractFactory("GnosisSafe");
     const gnosisSafe = GnosisSafe.attach(GNOSIS_SAFE_SIGNELTON_ADDRESS);
@@ -71,36 +71,38 @@ async function createNewUserWallet(user: any, gnosisSafe: any, gnosisSafeProxyFa
 }
 
 /*
-Bob EOA 0x7c15d0fbC081C05Ff0E5442c87aC46396aA70488, balance: 0
-Zoe EOA 0x5965b116464E09a13AcAaeC3a37cB2dB066e7929, balance: 0
+Alice EOA: 0x7c15d0fbC081C05Ff0E5442c87aC46396aA70488 balance: 0
+David EOA: 0x5965b116464E09a13AcAaeC3a37cB2dB066e7929 balance: 0
 
-GnosisSafe deployed at: 0xa76331135509E4C982f3534A4C80b18Fb79BB27d
-GnosisSafeProxyFactory deployed at: 0x3355Ff1809784a6361437E53d1dDaac88e1a6008
-CompatibilityFallbackHandler deployed at: 0xD557d951349849ecEBfD3D5308e3df362E2aAF45
+GnosisSafe deployed at: 0xeA9e96EC29aDAfB0962c23eDEe0caafc250f75C7
+GnosisSafeProxyFactory deployed at: 0x691EbA0B80Caee249931e30daAAEe29B7B792b22
+CompatibilityFallbackHandler deployed at: 0xdB8da6B0a8d681eC5d2A705C2cE6E93436c0EbDC
 
-GnosisSafeProxy deployed at: 0x4443Ff21B6Fc0f28c8DE9E7BeFff2c727D48c4d2
-hh verify --contract @gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxy.sol:GnosisSafeProxy 0x4443Ff21B6Fc0f28c8DE9E7BeFff2c727D48c4d2 0xa76331135509E4C982f3534A4C80b18Fb79BB27d
+TX GnosisSafeProxyFactory.createProxyWithNonce(): 0x4393b2359b62dce76596e1a7ac610a1909155156718277b24fcd2fa88459d320
+GnosisSafeProxy deployed at: 0xD79e44a675F7e98539b860BEadfdd56dA580DCAF
+hh verify --contract @gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxy.sol:GnosisSafeProxy 0xD79e44a675F7e98539b860BEadfdd56dA580DCAF 0xeA9e96EC29aDAfB0962c23eDEe0caafc250f75C7
 
-GnosisSafeProxy deployed at: 0xDA2397Ec2517865ca31F9017ef0D9Ae43E0AE9c6
-hh verify --contract @gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxy.sol:GnosisSafeProxy 0xDA2397Ec2517865ca31F9017ef0D9Ae43E0AE9c6 0xa76331135509E4C982f3534A4C80b18Fb79BB27d
+TX GnosisSafeProxyFactory.createProxyWithNonce(): 0x77621e01c9438a0acb23e7f7af8ff015007f7c48aa8b970c31c5ce558a451da7
+GnosisSafeProxy deployed at: 0x5D8f7aEe31782f37D02E133d08E3Ff1D22179b19
+hh verify --contract @gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxy.sol:GnosisSafeProxy 0x5D8f7aEe31782f37D02E133d08E3Ff1D22179b19 0xeA9e96EC29aDAfB0962c23eDEe0caafc250f75C7
 */
 
 /*
 Nothing to compile
 Compiling 1 file with 0.8.9
 Successfully submitted source code for contract
-@gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxy.sol:GnosisSafeProxy at 0x4443Ff21B6Fc0f28c8DE9E7BeFff2c727D48c4d2
+@gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxy.sol:GnosisSafeProxy at 0xD79e44a675F7e98539b860BEadfdd56dA580DCAF
 for verification on Etherscan. Waiting for verification result...
 
 Successfully verified contract GnosisSafeProxy on Etherscan.
-https://rinkeby.etherscan.io/address/0x4443Ff21B6Fc0f28c8DE9E7BeFff2c727D48c4d2#code
+https://goerli.etherscan.io/address/0xD79e44a675F7e98539b860BEadfdd56dA580DCAF#code
 
 Nothing to compile
 Compiling 1 file with 0.8.9
 Successfully submitted source code for contract
-@gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxy.sol:GnosisSafeProxy at 0xDA2397Ec2517865ca31F9017ef0D9Ae43E0AE9c6
+@gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxy.sol:GnosisSafeProxy at 0x5D8f7aEe31782f37D02E133d08E3Ff1D22179b19
 for verification on Etherscan. Waiting for verification result...
 
 Successfully verified contract GnosisSafeProxy on Etherscan.
-https://rinkeby.etherscan.io/address/0xDA2397Ec2517865ca31F9017ef0D9Ae43E0AE9c6#code
+https://goerli.etherscan.io/address/0x5D8f7aEe31782f37D02E133d08E3Ff1D22179b19#code
 */
